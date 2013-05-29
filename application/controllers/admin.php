@@ -101,7 +101,37 @@ class Admin extends CI_Controller {
 
 		$this->load->view('template', $data);
 	}
+	
+	//get item by supplier
+	function goto_view_items_supplier() {
 
+		$supplier_name= $this->input->post('supplier_name');
+		$output.="<option value='default'>Select one</option>";
+		if($this->pos_model->getAll_items_bySupplier($supplier_name)) {
+			$data['items'] = $this->pos_model->getAll_items_bySupplier($supplier_name);	
+			
+			foreach($data['items'] as $row){
+				$output .= "<option value='".$row->item_code."'>".$row->desc1."</option>";
+			}
+			
+		}
+		echo $output;
+		
+	}
+	
+	//get item by item code
+	function goto_view_items_byCode() {
+
+		$item_code= $this->input->post('item_code');
+		$output = "";
+		if($this->pos_model->get_item_byCode($item_code)) {
+			$data = $this->pos_model->get_item_byCode($item_code);				
+		}
+		echo json_encode($data);
+		
+	}
+	
+	
 	function reports() {
 
 		$data['header'] = 'Administrator';

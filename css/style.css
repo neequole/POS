@@ -12,6 +12,7 @@ div {
 
 .view {
 	overflow: scroll;
+	height: 500px;
 }
 
 #header {
@@ -47,6 +48,7 @@ div {
 	width: 79.5%;
 	height: 99%;
 	float: left;
+	overflow: scroll;
 }
 
 

@@ -17,7 +17,53 @@ class Pos_model extends CI_Model {
 		else 
 			return false;
 	}
+	
+	function getAll_items_bySupplier($supplier_name) {
 
+		$this->db->select('*');
+		$this->db->from('item');
+		$this->db->where('supplier_code',$supplier_name);
+		$result = $this->db->get();
+		 if($result->num_rows() > 0) {
+				foreach ($result->result() as $row) {
+					$data[] = $row;
+				}
+				return $data;
+		}
+		else 
+				return false;
+	}
+	
+	function get_item_byCode($item_code){
+		$this->db->select('*');
+		$this->db->from('item');
+		$this->db->where('item_code',$item_code);
+		$result = $this->db->get();
+		 if($result->num_rows() > 0) {
+				foreach ($result->result() as $row) {
+					$data = $row;
+				}
+				return $data;
+		}
+		else 
+				return false;
+	}
+	
+	
+	function getAll_supplier() {
+
+		$result = $this->db->get('supplier');
+		
+		if($result->num_rows() > 0) {
+			foreach ($result->result() as $row) {
+				$data[] = $row;
+			}
+			return $data;
+		}
+		else 
+			return false;
+	}
+	
 	function delete_item($item_code) {
 
 		$this->db->delete('item', array('item_code' => $item_code));

@@ -69,7 +69,7 @@ class Cashier extends CI_Controller {
 		
 		$data['page'] = 'cashier_home';
 		$data['subpage'] = 'cashier/incoming_main';
-
+		$data['supplier'] = $this->pos_model->getAll_supplier();
 		$this->load->view('template', $data);
 	}
 
