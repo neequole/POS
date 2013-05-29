@@ -2,7 +2,30 @@
 class Pos_model extends CI_Model {
 
 
-	
+	function check_user($password) {
+
+		$this->db->select('role');
+		$this->db->from('accounts');
+		$this->db->where('password', $password);
+		$result = $this->db->get();
+
+		if($result->num_rows() == 1)
+			return $result->row(0)->role;
+		else
+			return false;
+	}
+
+	function change_password($role, $old_pwd, $new_pwd) {
+
+		$this->db->where('role', $role);
+		$this->db->where('password', $old_pwd);
+		$this->db->update('accounts', array('password'=>$new_pwd)); 
+
+		if($this->db->affected_rows() == 1)
+			return true;
+		else
+			return false;
+	}
 
 	function getAll_items() {
 
@@ -17,8 +40,8 @@ class Pos_model extends CI_Model {
 		else 
 			return false;
 	}
-	
-	function getAll_items_bySupplier($supplier_name) {
+
+		function getAll_items_bySupplier($supplier_name) {
 
 		$this->db->select('*');
 		$this->db->from('item');
@@ -63,7 +86,7 @@ class Pos_model extends CI_Model {
 		else 
 			return false;
 	}
-	
+
 	function delete_item($item_code) {
 
 		$this->db->delete('item', array('item_code' => $item_code));
@@ -86,6 +109,21 @@ class Pos_model extends CI_Model {
 		}
 		else 
 			return false;
+	}
+
+	function get_customerId($customer) {
+
+		$this->db->select('customer_id');
+		$this->db->from('customers');
+		$this->db->where('customer_name', $customer);
+		$result = $this->db->get();
+		if($result->num_rows() == 1) {
+			foreach ($result->result() as $r) {
+				$id = $r->customer_id;
+			}
+		}
+
+		return $id;
 	}
 
 	function getAll_delivery() {

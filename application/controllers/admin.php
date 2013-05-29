@@ -18,14 +18,54 @@ class Admin extends CI_Controller {
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
 
+/* PASSWORD */
 	function password() {
-
+		$data['message'] = " ";
 		$data['header'] = 'Administrator';
 		
 		$data['page'] = 'admin_home';
 		$data['subpage'] = 'forms/password_form';
 
 		$this->load->view('template', $data);
+	}
+
+	function change_password() {
+
+		$role = $this->input->post('role_dropdown');
+		$old_pwd = $this->input->post('old_password');
+		$new_pwd = $this->input->post('new_password');
+
+
+		//$this->form_validation->set_rules('', 'Password', 'required');
+		$this->form_validation->set_rules('old_password', 'Password', 'required');
+		$this->form_validation->set_rules('new_password', 'Password', 'required|matches[conf_password]|md5');
+		$this->form_validation->set_rules('conf_password', 'Confirm Password', 'required');
+
+		if($this->form_validation->run() == FALSE) {
+			$data['message'] = "";
+			$data['header'] = 'Administrator';
+			
+			$data['page'] = 'admin_home';
+			$data['subpage'] = 'forms/password_form';
+
+			$this->load->view('template', $data);
+		}
+		else {
+
+			if($this->pos_model->change_password($role, $old_pwd, $new_pwd))
+				$data['message'] = "Password of $role succesfully changed.";
+			else
+				$data['message'] = "Wrong combination of role and password.";
+			
+			$data['header'] = 'Administrator';
+			
+			$data['page'] = 'admin_home';
+			$data['subpage'] = 'forms/password_form';
+
+			$this->load->view('template', $data);
+		}
+
+
 	}
 
 /* ITEMS */
@@ -101,8 +141,8 @@ class Admin extends CI_Controller {
 
 		$this->load->view('template', $data);
 	}
-	
-	//get item by supplier
+
+		//get item by supplier
 	function goto_view_items_supplier() {
 
 		$supplier_name= $this->input->post('supplier_name');
@@ -130,8 +170,7 @@ class Admin extends CI_Controller {
 		echo json_encode($data);
 		
 	}
-	
-	
+
 	function reports() {
 
 		$data['header'] = 'Administrator';
@@ -182,12 +221,15 @@ class Admin extends CI_Controller {
 
 	function delivery() {
 
-		/*$data['header'] = 'Administrator';
+		$data['header'] = 'Administrator';
 		
 		$data['page'] = 'admin_home';
 		$data['subpage'] = 'admin/delivery_main';
 
-		$this->load->view('template', $data);*/
+		$this->load->view('template', $data);		
+	}
+
+	function goto_view_delivery() {
 
 		if($this->pos_model->getAll_delivery()) {
 			$data['delivery'] = $this->pos_model->getAll_delivery();
@@ -199,14 +241,15 @@ class Admin extends CI_Controller {
 		$data['header'] = 'Administrator';
 		
 		$data['page'] = 'admin_home';
-		$data['list_id'] = 3; // list id # 2 - list of customers
+		$data['list_id'] = 3; // list id # 3 - list of customers
 		$data['subpage'] = 'view_list';
 		
-		$this->load->view('template', $data);
+		$this->load->view('template', $data);	
 	}
 
 	function logout() {
 
+		$data['message'] = " ";
 		$data['header'] = 'POS';
 		
 		$data['page'] = 'forms/login_form';

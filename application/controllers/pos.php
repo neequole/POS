@@ -24,11 +24,46 @@ class Pos extends CI_Controller {
 
 	public function index()
 	{
+		$data['message'] = " ";
 		$data['header'] = 'POS';
 		
 		$data['page'] = 'forms/login_form';
 		
 		$this->load->view('template', $data);
+	}
+
+	public function user_login() {
+		
+		$this->form_validation->set_rules('password','Password','required');
+
+		// password is invalid
+		if ($this->form_validation->run() == FALSE) {
+			$data['message'] = "* Invalid password";
+			$data['header'] = 'POS';
+			$data['page'] = 'forms/login_form';
+		
+			$this->load->view('template', $data);
+		}
+		else {
+			
+			$password = $this->input->post('password');
+			
+			$account = $this->pos_model->check_user($password);
+						
+			if($account=='cashier') {
+				redirect('pos/cashier_home');
+			}
+			else if($account=='admin') {
+				redirect('pos/admin_home');
+			}
+			else {
+				$data['message'] = "* Invalid password";
+				$data['header'] = 'POS';
+				$data['page'] = 'forms/login_form';
+			
+				$this->load->view('template', $data);			
+			}
+		}		
 	}
 
 	public function cashier_home() {
