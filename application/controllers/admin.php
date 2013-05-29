@@ -77,6 +77,56 @@ class Admin extends CI_Controller {
 		redirect('admin/goto_add_item');
 	}
 
+	function goto_edit_item($edit) {
+
+		$data['header'] = 'Administrator';
+		
+		$data['page'] = 'admin_home';
+		$data['subpage'] = 'forms/itemEdit_form';
+		$data['edit'] = $edit;
+
+		$this->load->view('template', $data);
+	}
+
+
+	function edit_item() {
+
+		$this->input->post('');
+		$edit=$this->input->post('itemcode');
+
+		$data = array(
+               'item_code' => $this->input->post('itemcode'),
+               'bar_code' => $this->input->post('barcode'),
+               'desc1' => $this->input->post('desc1'),
+               'desc2' => $this->input->post('desc2'),
+               'desc3' => $this->input->post('desc3'),
+               'desc4' => $this->input->post('desc4'),
+               'group' => $this->input->post('group'),
+               'class1' => $this->input->post('class1'),
+               'class2' => $this->input->post('class2'),
+               'cost' => $this->input->post('cost'),
+               'retail_price' => $this->input->post('price'),
+               'model_quantity' => $this->input->post('m_quantity'),
+               'supplier_code' => $this->input->post('supplier_code'),
+               'manufacturer' => $this->input->post('manufacturer'),
+               'quantity' => $this->input->post('quantity'),
+               'reorder_point' => $this->input->post('reorder_point')
+            );
+
+			
+		$data['success'] = $this->pos_model->update_item($data,$edit);
+		$data['edit']=$edit;
+
+		$data['header'] = 'Administrator';
+		
+		$data['page'] = 'admin_home';
+		$data['subpage'] = 'admin/successEdit';
+											
+		$this->load->view('template', $data);
+
+	}
+
+
 	function delete_item($item_code) {
 
 		$this->pos_model->delete_item($item_code);
@@ -101,6 +151,7 @@ class Admin extends CI_Controller {
 
 		$this->load->view('template', $data);
 	}
+<<<<<<< HEAD
 	
 	//get item by supplier
 	function goto_view_items_supplier() {
@@ -132,6 +183,9 @@ class Admin extends CI_Controller {
 	}
 	
 	
+=======
+
+>>>>>>> b905095845ea47e2ab7bfaf174b39c7205347fde
 	function reports() {
 
 		$data['header'] = 'Administrator';

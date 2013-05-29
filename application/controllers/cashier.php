@@ -17,6 +17,7 @@ class Cashier extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
+<<<<<<< HEAD
 	 
 	function purchase() {
 
@@ -124,39 +125,17 @@ class Cashier extends CI_Controller {
 	function do_purchase() {
 
 		$customer = $this->input->post('cash_dropdown');
+=======
+>>>>>>> b905095845ea47e2ab7bfaf174b39c7205347fde
 
-		// get customer ID
-		$id = $this->pos_model->get_customerID($customer);
+	function purchase() {
 
-		// insert transactions
-		$this->db->insert('transactions', array('trans_id'=>NULL, 'customer_id'=>$id, 'trans_date'=>date('y-m-d')));
-		
-		// get transaction id
-		$trans_id = $this->db->insert_id();
-
-		// insert trans_details
-		$i = 1;
-
-		foreach ($this->cart->contents() as $items):
-			$this->db->insert('trans_details', array('trans_id'=> $trans_id,
-				'item_code'=>$items['id'],
-				'quantity'=>$items['qty'],
-				'price'=>$items['subtotal']
-				));
-			$i++;
-		endforeach;
-
-		$this->cart->destroy();
-
-		$data['message'] = "";
 		$data['header'] = 'Cashier';
 		
 		$data['page'] = 'cashier_home';
 		$data['subpage'] = 'cashier/purchase_main';
 
 		$this->load->view('template', $data);
-
-
 	}
 
 	function credit() {
@@ -200,7 +179,7 @@ class Cashier extends CI_Controller {
 		
 		$data['page'] = 'cashier_home';
 		$data['subpage'] = 'cashier/incoming_main';
-		$data['supplier'] = $this->pos_model->getAll_supplier();
+
 		$this->load->view('template', $data);
 	}
 
@@ -221,7 +200,27 @@ class Cashier extends CI_Controller {
 		$data['page'] = 'cashier_home';
 		$data['subpage'] = 'cashier/search_main';
 
-		$this->load->view('template', $data);
+		$this->form_validation->set_rules('search','search item','alpha|required|xss_clean');
+
+		$search = $this->input->post('search');
+
+		if ($this->form_validation->run() == FALSE){
+
+			$data['results'] = FALSE;
+ 
+ 			$this->load->view('template', $data);
+ 
+		}
+		else {
+
+				$data['search'] = $search;
+
+				$data['results'] = $this->pos_model->get_search($search);
+
+				$this->load->view('template', $data);
+			}
+
+		
 	}
 
 	function inventory() {
@@ -252,7 +251,11 @@ class Cashier extends CI_Controller {
 		
 		$this->load->view('template', $data);
 	}
+<<<<<<< HEAD
 		
+=======
+	
+>>>>>>> b905095845ea47e2ab7bfaf174b39c7205347fde
 }
 
 /* End of file pos.php */
