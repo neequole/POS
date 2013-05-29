@@ -17,7 +17,7 @@ class Cashier extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
-<<<<<<< HEAD
+
 	 
 	function purchase() {
 
@@ -122,21 +122,7 @@ class Cashier extends CI_Controller {
 		}
 	}
 	
-	function do_purchase() {
-
-		$customer = $this->input->post('cash_dropdown');
-=======
->>>>>>> b905095845ea47e2ab7bfaf174b39c7205347fde
-
-	function purchase() {
-
-		$data['header'] = 'Cashier';
-		
-		$data['page'] = 'cashier_home';
-		$data['subpage'] = 'cashier/purchase_main';
-
-		$this->load->view('template', $data);
-	}
+	
 
 	function credit() {
 
@@ -251,11 +237,7 @@ class Cashier extends CI_Controller {
 		
 		$this->load->view('template', $data);
 	}
-<<<<<<< HEAD
-		
-=======
-	
->>>>>>> b905095845ea47e2ab7bfaf174b39c7205347fde
+
 }
 
 /* End of file pos.php */
