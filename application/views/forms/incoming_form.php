@@ -1,7 +1,7 @@
 <?php
 
 echo validation_errors();
-echo form_open('delivery/create');	//Controller -> Delivery, Action -> Create	
+echo form_open('cashier/createDelivery');	//Controller -> Delivery, Action -> Create	
 
 	echo '<label for="invoiceDate">Delivery date: </label>';	//delivery date
 	$data = array(
@@ -11,18 +11,19 @@ echo form_open('delivery/create');	//Controller -> Delivery, Action -> Create
               'maxlength'   => '',
               'size'        => '',
               'style'       => '',
+			  'required'	=> 'required',
 			  'readonly'	=> 'readonly'
     );
 
 	echo form_input($data).'<br/>';
 	
 	$data = array();
-	$data['default'] = 'Please Select';
+	$data[''] = 'Please Select';
 	foreach($supplier as $row){
 		$data[$row->supplier_name] = $row->supplier_name;
 	}
 	
-	echo 'Incoming from: '.form_dropdown('outgoing', $data,'default','id="outgoing" autocomplete="off"').'<br>'; 		//incoming from
+	echo 'Incoming from: '.form_dropdown('outgoing', $data,'','id="outgoing" autocomplete="off" required').'<br>'; 		//incoming from
 	echo 'Incoming Description <br>'.form_textarea(array('rows' => '5', 'cols'=>'20', 'name' => 'in_desc', 'autocomplete' => 'off')).'<br>';		//comments
 		
 ?>
@@ -32,9 +33,9 @@ echo form_open('delivery/create');	//Controller -> Delivery, Action -> Create
 		<td>											
 		<?php											//item
 		$options = array(
-			'default' => 'Select one'
+			'' => 'Select one'
         );		
-		echo form_dropdown('invoiceItem',$options,'default','class="invoiceItem" autocomplete="off"');
+		echo form_dropdown('invoiceItem',$options,'','class="invoiceItem" autocomplete="off" required');
 		?>
 		</td>
 		<td>
@@ -48,6 +49,7 @@ echo form_open('delivery/create');	//Controller -> Delivery, Action -> Create
 				  'maxlength'   => '',
 				  'size'        => '',
 				  'style'       => '',
+				  'required'	=> 'required',
 				  'autocomplete' => 'off'
 		);
 
@@ -65,6 +67,7 @@ echo form_open('delivery/create');	//Controller -> Delivery, Action -> Create
 				  'size'        => '',
 				  'style'       => '',
 				  'autocomplete' => 'off',
+				  'required'	=> 'required',
 				  'readonly'	=> 'readonly'
 		);
 
@@ -82,6 +85,7 @@ echo form_open('delivery/create');	//Controller -> Delivery, Action -> Create
 				  'size'        => '',
 				  'style'       => '',
 				  'autocomplete' => 'off',
+				  'required'	=> 'required',
 				  'readonly'	=> 'readonly'
 		);
 

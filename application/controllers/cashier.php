@@ -17,9 +17,6 @@ class Cashier extends CI_Controller {
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
 	 */
-	function grace() {
-		
-	}
 	 
 	function purchase() {
 
@@ -80,6 +77,50 @@ class Cashier extends CI_Controller {
 		}
 	}
 
+	function createDelivery(){
+		$this->load->helper('form');
+		$this->load->library('form_validation');
+		
+		$data['title'] = 'Create a delivery slip';
+		$data['header'] = 'Cashier';
+		
+		$this->form_validation->set_rules('invoiceDate', 'Delivery date', 'required');				//require date
+		$this->form_validation->set_rules('outgoing' ,'Supplier name', 'required');					//require supplier
+		$this->form_validation->set_rules('outgoing','Supplier name', 'callback_supplier_check');	//check if supplier is not ''
+		$this->form_validation->set_rules('invoiceItem', 'Item code' , 'required');					//require item code
+		$this->form_validation->set_rules('invoiceQty', 'Item quantity' , 'required');				//require item quantity
+		$this->form_validation->set_rules('invoicePrice', 'Item price' , 'required');				//require	item price
+		$this->form_validation->set_rules('invoiceAmt', 'Item amount' , 'required');				//require item amount
+		
+		if ($this->form_validation->run() === FALSE)
+		{
+			$data['header'] = 'Cashier';
+			$data['page'] = 'cashier_home';
+			$data['subpage'] = 'cashier/incoming_main';
+			$data['supplier'] = $this->pos_model->getAll_supplier();
+			$this->load->view('template', $data);
+		}
+		else
+		{
+			//$this->news_model->set_news();
+			$this->load->view('cashier/success');
+		}
+	}
+	
+	
+	public function supplier_check($str)
+	{
+		if ($str == "")
+		{
+			$this->form_validation->set_message('supplier_check', 'The %s field can not be empty.');
+			return FALSE;
+		}
+		else
+		{
+			return TRUE;
+		}
+	}
+	
 	function do_purchase() {
 
 		$customer = $this->input->post('cash_dropdown');
@@ -211,11 +252,7 @@ class Cashier extends CI_Controller {
 		
 		$this->load->view('template', $data);
 	}
-	
-	function hello{
-		echo 'hh';
-	}
-	
+		
 }
 
 /* End of file pos.php */
