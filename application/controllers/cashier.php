@@ -212,6 +212,10 @@ class Cashier extends CI_Controller {
 		$this->load->view('template', $data);
 	}
 	
+	function hello{
+		echo 'hh';
+	}
+	
 }
 
 /* End of file pos.php */
