@@ -146,7 +146,7 @@ class Admin extends CI_Controller {
 	function goto_view_items_supplier() {
 
 		$supplier_name= $this->input->post('supplier_name');
-		$output.="<option value='default'>Select one</option>";
+		$output = "<option value='default'>Select one</option>";
 		if($this->pos_model->getAll_items_bySupplier($supplier_name)) {
 			$data['items'] = $this->pos_model->getAll_items_bySupplier($supplier_name);	
 			

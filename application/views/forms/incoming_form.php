@@ -22,18 +22,18 @@ echo form_open('delivery/create');	//Controller -> Delivery, Action -> Create
 		$data[$row->supplier_name] = $row->supplier_name;
 	}
 	
-	echo 'Incoming from: '.form_dropdown('outgoing', $data,'default','id="outgoing" autocomplete="off"').'<br>'; 
-	echo 'Incoming Description <br>'.form_textarea(array('rows' => '5', 'cols'=>'20', 'name' => 'in_desc')).'<br>';		//comments
+	echo 'Incoming from: '.form_dropdown('outgoing', $data,'default','id="outgoing" autocomplete="off"').'<br>'; 		//incoming from
+	echo 'Incoming Description <br>'.form_textarea(array('rows' => '5', 'cols'=>'20', 'name' => 'in_desc', 'autocomplete' => 'off')).'<br>';		//comments
 		
 ?>
 	<table id="deliveryTable">
 	<tr><th>Item</th><th>Quantity</th><th>Price</th><th>Amount</th><th>Action</th></tr>
-	<tr id='hellos'>
+	<tr>
 		<td>											
-		<?php
+		<?php											//item
 		$options = array(
 			'default' => 'Select one'
-        );		//item
+        );		
 		echo form_dropdown('invoiceItem',$options,'default','class="invoiceItem" autocomplete="off"');
 		?>
 		</td>
@@ -41,11 +41,14 @@ echo form_open('delivery/create');	//Controller -> Delivery, Action -> Create
 		<?php											//quantity
 			$data = array(
 				  'name'        => 'invoiceQty',
+				  'type'		=> 'number',
 				  'id'          => '',
+				  'class'		=> 'invoiceQty',
 				  'value'       => '',
 				  'maxlength'   => '',
 				  'size'        => '',
 				  'style'       => '',
+				  'autocomplete' => 'off'
 		);
 
 		echo form_input($data);
@@ -61,6 +64,7 @@ echo form_open('delivery/create');	//Controller -> Delivery, Action -> Create
 				  'maxlength'   => '',
 				  'size'        => '',
 				  'style'       => '',
+				  'autocomplete' => 'off',
 				  'readonly'	=> 'readonly'
 		);
 
@@ -72,10 +76,12 @@ echo form_open('delivery/create');	//Controller -> Delivery, Action -> Create
 			$data = array(								//amount = qty * price
 				  'name'        => 'invoiceAmt',
 				  'id'          => '',
+				  'class'		=>	'invoiceAmt',
 				  'value'       => '',
 				  'maxlength'   => '',
 				  'size'        => '',
 				  'style'       => '',
+				  'autocomplete' => 'off',
 				  'readonly'	=> 'readonly'
 		);
 
@@ -83,18 +89,7 @@ echo form_open('delivery/create');	//Controller -> Delivery, Action -> Create
 		?>
 		</td>
 		<td>
-		<?php
-			$data = array(								//action{delete}
-				  'name'        => 'invoiceAction',
-				  'id'          => '',
-				  'value'       => '',
-				  'maxlength'   => '',
-				  'size'        => '',
-				  'style'       => '',
-		);
-
-		echo form_input($data);
-		?>
+			<input type="button" value="Delete Row" onclick="DeleteRowFunction(this)" />
 		</td>
 	</tr>
 	</table>
@@ -111,6 +106,6 @@ echo form_open('delivery/create');	//Controller -> Delivery, Action -> Create
 	
 	?>
 	<br/>
-	<label for="totalPrice">Total: </label><input type="input" name="totalPrice" readonly/><br/>
+	<label for="totalPrice">Total: </label><input type="input" name="totalPrice" id='totalPrice' autocomplete="off" readonly/><br/>
 	<input type="submit" name="submit" value="Submit" />
 </form>
