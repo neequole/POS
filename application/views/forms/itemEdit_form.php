@@ -24,6 +24,7 @@
 		Reorder Point: <input type="number" name="reorder_point" value="'.$r->reorder_point.'"><br>';
 
 	echo form_submit('edit_submit', 'Edit Item');
+	echo anchor('admin/goto_view_items', ' Cancel ');
 }?>
 
 
